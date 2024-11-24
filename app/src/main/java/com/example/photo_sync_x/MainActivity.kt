@@ -1,47 +1,46 @@
 package com.example.photo_sync_x
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.photo_sync_x.ui.theme.Photo_sync_xTheme
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.photo_sync_x.component.HomeComponent
+import com.example.photo_sync_x.component.SelectDirectComponent
+
+@SuppressLint("StaticFieldLeak")
+lateinit var mNavController: NavHostController
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            Photo_sync_xTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+            MaterialTheme {
+                DemoNavigation()
             }
         }
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Photo_sync_xTheme {
-        Greeting("Android")
+    @Composable
+    fun DemoNavigation() {
+        //创建导航控制器
+        mNavController = rememberNavController()
+        //创建NavHost导航组建者，传入了mNavController 导航控制器 与 首个显示的页面 startDestination = APage
+        NavHost(
+            navController = mNavController,
+            startDestination = "HomeComponent"
+        ) {
+            composable(route = "HomeComponent") { HomeComponent() }
+            composable(route = "SelectDirectComponent") { SelectDirectComponent() }
+        }
     }
 }
