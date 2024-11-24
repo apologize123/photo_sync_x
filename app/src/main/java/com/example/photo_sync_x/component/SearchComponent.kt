@@ -1,4 +1,4 @@
-package com.example.photo_sync_x.component;
+package com.example.photo_sync_x.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
